@@ -1,2 +1,2 @@
 # gyokoiStuff
-Built from a bed, an iPhone, and too many ideas.
+I don't work in tech. Tech keeps happening to me.

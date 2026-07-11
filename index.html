@@ -1,502 +1,166 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th" data-theme="dark">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>alicetletech</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gyokoi Hub — Control Center</title>
+  <meta name="description" content="Gyokoi's personal control center for every website, workspace and system.">
+  <meta name="theme-color" content="#0b1020">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-<style>
-:root{
-  --ink:#17131f;
-  --muted:#6c6478;
-  --purple:#8769f2;
-  --purple2:#bba7ff;
-  --blue:#b9d6ff;
-  --glass:rgba(255,255,255,.50);
-  --line:rgba(255,255,255,.76);
-}
-
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-
-body{
-  font-family:Inter,system-ui,sans-serif;
-  color:var(--ink);
-  min-height:100vh;
-  overflow-x:hidden;
-  background:
-    radial-gradient(circle at 15% 5%, rgba(187,167,255,.56), transparent 26%),
-    radial-gradient(circle at 88% 8%, rgba(185,214,255,.45), transparent 24%),
-    radial-gradient(circle at 50% 58%, rgba(135,105,242,.16), transparent 34%),
-    linear-gradient(135deg,#fff 0%,#faf7ff 42%,#f0eaff 100%);
-}
-
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  background-image:
-    linear-gradient(rgba(135,105,242,.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(135,105,242,.055) 1px, transparent 1px);
-  background-size:46px 46px;
-  mask-image:linear-gradient(to bottom, black, transparent 78%);
-}
-
-.container{
-  width:min(1120px,90%);
-  margin:auto;
-  position:relative;
-  z-index:1;
-}
-
-.nav{
-  margin:22px auto 0;
-  padding:14px 18px;
-  border-radius:999px;
-  background:rgba(255,255,255,.50);
-  border:1px solid var(--line);
-  backdrop-filter:blur(24px);
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  box-shadow:0 20px 60px rgba(80,52,140,.08);
-}
-
-.logo{font-weight:900;letter-spacing:-.055em}
-.logo span{color:var(--purple)}
-
-.nav a{
-  color:#3d3748;
-  text-decoration:none;
-  font-size:13px;
-  margin-left:22px;
-  opacity:.82;
-}
-
-/* FIXED: เดิมสูงไปเพราะ min-height + padding ทำให้ซูมออกมีช่องว่างเยอะ */
-.hero{
-  min-height:unset;
-  padding:clamp(70px,10vh,118px) 0 clamp(44px,7vh,82px);
-  display:grid;
-  grid-template-columns:minmax(0,1fr) minmax(320px,.82fr);
-  gap:clamp(28px,5vw,64px);
-  align-items:center;
-}
-
-.badge{
-  display:inline-flex;
-  gap:8px;
-  align-items:center;
-  padding:8px 13px;
-  border-radius:999px;
-  background:rgba(255,255,255,.58);
-  border:1px solid var(--line);
-  color:#6f58d9;
-  font-size:13px;
-  font-weight:800;
-  margin-bottom:20px;
-  backdrop-filter:blur(18px);
-}
-
-h1{
-  font-size:clamp(58px,8vw,108px);
-  line-height:.82;
-  letter-spacing:-.095em;
-  margin-bottom:24px;
-  max-width:760px;
-}
-
-.gradient{
-  background:linear-gradient(90deg,#17131f 0%,#7556ed 52%,#a9cfff 100%);
-  -webkit-background-clip:text;
-  color:transparent;
-}
-
-.lead{
-  font-size:clamp(18px,2vw,25px);
-  line-height:1.35;
-  font-weight:750;
-  letter-spacing:-.04em;
-  margin-bottom:12px;
-}
-
-.copy{
-  color:var(--muted);
-  font-size:16px;
-  line-height:1.8;
-  max-width:620px;
-}
-
-.cta{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:28px;
-}
-
-.btn{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  padding:14px 20px;
-  border-radius:999px;
-  text-decoration:none;
-  font-weight:850;
-  font-size:14px;
-  transition:.25s ease;
-}
-
-.primary{
-  color:white;
-  background:linear-gradient(135deg,#7758ee,#b39cff);
-  box-shadow:0 18px 45px rgba(123,93,240,.26);
-}
-
-.secondary{
-  color:#332846;
-  background:rgba(255,255,255,.62);
-  border:1px solid var(--line);
-  backdrop-filter:blur(18px);
-}
-
-.btn:hover{transform:translateY(-4px)}
-
-.command{
-  border-radius:34px;
-  padding:22px;
-  background:rgba(255,255,255,.46);
-  border:1px solid var(--line);
-  backdrop-filter:blur(26px);
-  box-shadow:0 28px 90px rgba(80,52,140,.11);
-}
-
-.command-top{
-  display:flex;
-  gap:8px;
-  margin-bottom:16px;
-}
-
-.dot{width:10px;height:10px;border-radius:50%;background:#d8cff8}
-
-.window{
-  border-radius:24px;
-  padding:24px;
-  background:rgba(255,255,255,.55);
-  border:1px solid rgba(255,255,255,.8);
-}
-
-.window small{
-  display:block;
-  color:#7d728e;
-  margin-bottom:16px;
-  font-weight:800;
-}
-
-.quick{
-  display:grid;
-  gap:10px;
-}
-
-.quick a{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  text-decoration:none;
-  color:#201a2f;
-  padding:15px 16px;
-  border-radius:18px;
-  background:rgba(255,255,255,.54);
-  border:1px solid rgba(255,255,255,.78);
-  transition:.23s ease;
-}
-
-.quick a:hover{
-  transform:translateX(6px);
-  background:white;
-}
-
-.quick span{color:#8065e9;font-weight:900}
-
-.section{
-  padding:clamp(34px,7vh,72px) 0 76px;
-}
-
-.section-head{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  align-items:end;
-  margin-bottom:22px;
-}
-
-.section h2{
-  font-size:clamp(34px,4.8vw,58px);
-  letter-spacing:-.075em;
-}
-
-.section p{
-  color:var(--muted);
-  line-height:1.7;
-  max-width:560px;
-}
-
-.bento{
-  display:grid;
-  grid-template-columns:1.15fr .85fr;
-  grid-auto-rows:minmax(188px,auto);
-  gap:16px;
-}
-
-.card{
-  position:relative;
-  overflow:hidden;
-  min-height:190px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-  text-decoration:none;
-  color:var(--ink);
-  padding:24px;
-  border-radius:30px;
-  background:rgba(255,255,255,.48);
-  border:1px solid var(--line);
-  backdrop-filter:blur(24px);
-  box-shadow:0 20px 70px rgba(80,52,140,.08);
-  transition:.25s ease;
-}
-
-.card:after{
-  content:"";
-  position:absolute;
-  right:-60px;
-  top:-60px;
-  width:190px;
-  height:190px;
-  background:radial-gradient(circle, rgba(135,105,242,.32), transparent 68%);
-  opacity:0;
-  transition:.25s ease;
-}
-
-.card:hover{
-  transform:translateY(-7px);
-  box-shadow:0 30px 90px rgba(80,52,140,.16);
-  background:rgba(255,255,255,.66);
-}
-
-.card:hover:after{opacity:1}
-
-.big{grid-row:span 2}
-
-.label{
-  width:max-content;
-  font-size:11px;
-  letter-spacing:.08em;
-  color:#7156de;
-  font-weight:900;
-  padding:7px 10px;
-  border-radius:999px;
-  background:rgba(135,105,242,.12);
-}
-
-.card h3{
-  font-size:clamp(27px,3.5vw,44px);
-  letter-spacing:-.07em;
-  margin:18px 0 10px;
-}
-
-.card p{font-size:15px}
-
-.arrow{
-  margin-top:22px;
-  font-weight:900;
-  color:#755be5;
-}
-
-.metrics{
-  margin-top:16px;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:14px;
-}
-
-.metric{
-  padding:20px;
-  border-radius:26px;
-  background:rgba(255,255,255,.45);
-  border:1px solid var(--line);
-  backdrop-filter:blur(20px);
-}
-
-.metric strong{
-  display:block;
-  font-size:32px;
-  letter-spacing:-.065em;
-  color:#765be7;
-  margin-bottom:6px;
-}
-
-.metric small{
-  color:var(--muted);
-  line-height:1.45;
-}
-
-.footer{
-  margin:28px 0 36px;
-  padding:56px 34px;
-  text-align:center;
-  border-radius:36px;
-  background:linear-gradient(135deg,rgba(255,255,255,.64),rgba(255,255,255,.30));
-  border:1px solid var(--line);
-  backdrop-filter:blur(28px);
-}
-
-.footer h2{
-  font-size:clamp(36px,6vw,78px);
-  line-height:.98;
-  letter-spacing:-.085em;
-}
-.footer span{color:var(--purple)}
-.footer p{margin-top:20px;color:var(--muted)}
-
-@media(max-width:860px){
-  .nav-links{display:none}
-  .hero{
-    grid-template-columns:1fr;
-    padding:62px 0 38px;
-  }
-  .section-head{display:block}
-  .bento{grid-template-columns:1fr}
-  .big{grid-row:auto}
-  .metrics{grid-template-columns:repeat(2,1fr)}
-}
-
-@media(max-height:760px) and (min-width:861px){
-  .hero{
-    padding:52px 0 36px;
-  }
-  h1{
-    font-size:clamp(54px,7vw,92px);
-  }
-}
-</style>
+  <link rel="stylesheet" href="style.css">
+  <script src="apps.js" defer></script>
+  <script src="script.js" defer></script>
 </head>
 
 <body>
-<div class="container">
-  <nav class="nav">
-    <div class="logo">alicetle<span>tech</span></div>
-    <div class="nav-links">
-      <a href="#projects">Projects</a>
-      <a href="#playground">Playground</a>
-      <a href="#metrics">Numbers</a>
-      <a href="#journal">Journal</a>
+  <div class="wallpaper" aria-hidden="true">
+    <div class="aurora aurora-one"></div>
+    <div class="aurora aurora-two"></div>
+    <div class="aurora aurora-three"></div>
+    <div class="noise"></div>
+  </div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">G</span>
+      <div>
+        <strong>GYOKOI</strong>
+        <small>Control Center</small>
+      </div>
     </div>
+
+    <div class="topbar-actions">
+      <button class="spotlight-button" type="button" data-open-search>
+        <span>⌘ K</span>
+        Search
+      </button>
+
+      <button class="theme-button" type="button" data-toggle-theme aria-label="Toggle theme">
+        ◐
+      </button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">MISSION CONTROL</p>
+        <h1>Everything I build,<br><span>one place.</span></h1>
+        <p class="hero-copy">
+          A personal launcher for websites, workspaces, systems and ideas.
+        </p>
+      </div>
+
+      <div class="hero-meta">
+        <div>
+          <span id="currentTime">--:--</span>
+          <small id="currentDate">Loading date…</small>
+        </div>
+        <div>
+          <strong id="appCount">0</strong>
+          <small>active destinations</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="mission-grid" aria-label="App categories">
+      <button class="mission-card active" type="button" data-filter="all">
+        <span class="mission-icon">✦</span>
+        <span>
+          <strong>All Apps</strong>
+          <small>Everything in one view</small>
+        </span>
+      </button>
+
+      <button class="mission-card" type="button" data-filter="personal">
+        <span class="mission-icon">⌘</span>
+        <span>
+          <strong>Personal</strong>
+          <small>Brand & AI workspace</small>
+        </span>
+      </button>
+
+      <button class="mission-card" type="button" data-filter="work">
+        <span class="mission-icon">◫</span>
+        <span>
+          <strong>Work</strong>
+          <small>Tools & operations</small>
+        </span>
+      </button>
+
+      <button class="mission-card" type="button" data-filter="business">
+        <span class="mission-icon">◇</span>
+        <span>
+          <strong>Business</strong>
+          <small>Family & owned projects</small>
+        </span>
+      </button>
+
+      <button class="mission-card" type="button" data-filter="internal">
+        <span class="mission-icon">⌁</span>
+        <span>
+          <strong>Internal</strong>
+          <small>Private access points</small>
+        </span>
+      </button>
+    </section>
+
+    <section class="launchpad">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">LAUNCHPAD</p>
+          <h2 id="sectionTitle">All Apps</h2>
+        </div>
+
+        <label class="inline-search">
+          <span aria-hidden="true">⌕</span>
+          <input id="inlineSearch" type="search" placeholder="Search apps…">
+        </label>
+      </div>
+
+      <div class="app-grid" id="appGrid"></div>
+    </section>
+  </main>
+
+  <nav class="dock" aria-label="Quick launch">
+    <button type="button" data-dock="portfolio" title="Portfolio">P</button>
+    <button type="button" data-dock="alicejens" title="AliceJens">A</button>
+    <button type="button" data-dock="workspace" title="Workspace">W</button>
+    <button type="button" data-dock="kk" title="K&K">K</button>
+    <button type="button" data-open-search title="Search">⌕</button>
   </nav>
 
-  <section class="hero">
-    <div>
-      <div class="badge">✦ Alicetle Universe / Tech Edition</div>
-
-      <h1><span class="gradient">alicetle<br>tech</span></h1>
-
-      <div class="lead">Marketing × PR × Business Development</div>
-      <p class="copy">
-        Marketer who speaks tech.<br>
-        Speaking Tech. Building Ideas.<br>
-        Built from a bed, an iPhone, and too many ideas.
-      </p>
-
-      <div class="cta">
-        <a class="btn primary" href="#projects">View Projects →</a>
-        <a class="btn secondary" href="#playground">Open Playground</a>
+  <dialog class="spotlight" id="spotlight">
+    <div class="spotlight-panel">
+      <div class="spotlight-input-wrap">
+        <span>⌕</span>
+        <input id="spotlightInput" type="search" placeholder="Search anything…">
+        <kbd>Esc</kbd>
       </div>
+      <div class="spotlight-results" id="spotlightResults"></div>
     </div>
+  </dialog>
 
-    <div class="command">
-      <div class="command-top">
-        <i class="dot"></i><i class="dot"></i><i class="dot"></i>
+  <template id="appCardTemplate">
+    <article class="app-card">
+      <div class="app-card-top">
+        <div class="app-icon"></div>
+        <span class="status-badge"></span>
       </div>
-      <div class="window">
-        <small>quick access</small>
-        <div class="quick">
-          <a href="#gstarcad">GstarCAD Thailand <span>↗</span></a>
-          <a href="#8baht">8Baht.com <span>↗</span></a>
-          <a href="#applicad">AppliCAD PR <span>↗</span></a>
-          <a href="#kk">K&K Car Rental <span>↗</span></a>
-        </div>
+      <div class="app-copy">
+        <span class="app-category"></span>
+        <h3 class="app-title"></h3>
+        <p class="app-description"></p>
       </div>
-    </div>
-  </section>
-
-  <section class="section" id="projects">
-    <div class="section-head">
-      <div>
-        <h2>Click into the work.</h2>
+      <div class="app-actions">
+        <a class="open-app" target="_blank" rel="noopener noreferrer">Open</a>
+        <a class="secondary-link" target="_blank" rel="noopener noreferrer" hidden>Admin</a>
       </div>
-    </div>
-
-    <div class="bento">
-      <a class="card big" id="gstarcad" href="#">
-        <div>
-          <div class="label">PRODUCT MARKETING</div>
-          <h3>GstarCAD Thailand</h3>
-          <p>Product pages, free trial, comparison pages, SEO articles, HTML sections and campaign landing pages.</p>
-        </div>
-        <div class="arrow">View project →</div>
-      </a>
-
-      <a class="card" id="8baht" href="#">
-        <div>
-          <div class="label">E-COMMERCE</div>
-          <h3>8Baht.com</h3>
-          <p>Licensed software platform, product content and campaign communication.</p>
-        </div>
-        <div class="arrow">Explore →</div>
-      </a>
-
-      <a class="card" id="applicad" href="#">
-        <div>
-          <div class="label">PR / B2B</div>
-          <h3>AppliCADThai</h3>
-          <p>PR articles, event communication and corporate tech storytelling.</p>
-        </div>
-        <div class="arrow">Read work →</div>
-      </a>
-
-      <a class="card" id="kk" href="https://alicetletech-afk.github.io/kk-hatyai-car-rental/">
-        <div>
-          <div class="label">WEB APP</div>
-          <h3>K&K Car Rental</h3>
-          <p>Family business website with booking flow, availability checker and admin dashboard.</p>
-        </div>
-        <div class="arrow">Open live site →</div>
-      </a>
-
-      <a class="card" id="playground" href="#">
-        <div>
-          <div class="label">PLAYGROUND</div>
-          <h3>Checklist & Small Tools</h3>
-          <p>Things built because doing them manually was annoying.</p>
-        </div>
-        <div class="arrow">Enter playground →</div>
-      </a>
-    </div>
-
-    <div class="metrics" id="metrics">
-      <div class="metric"><strong>2M+</strong><small>Monthly product revenue milestones</small></div>
-      <div class="metric"><strong>100+</strong><small>PR / SEO / product content pieces</small></div>
-      <div class="metric"><strong>4+</strong><small>Websites and digital touchpoints</small></div>
-      <div class="metric"><strong>1</strong><small>GitHub account where things escalated quickly</small></div>
-    </div>
-  </section>
-
-  <footer class="footer" id="journal">
-    <h2>I don't work in <span>tech.</span><br>Tech keeps happening to me.</h2>
-    <p>alicetletech © 2026</p>
-  </footer>
-</div>
+    </article>
+  </template>
 </body>
 </html>

@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#11101a" />
+  <title>Gyokoi Hub Admin</title>
+  <link rel="icon" href="assets/favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="admin.css" />
+</head>
+<body>
+  <div class="aurora aurora-one"></div>
+  <div class="aurora aurora-two"></div>
+
+  <section id="loginView" class="login-view">
+    <div class="login-card glass">
+      <div class="brand-mark">G</div>
+      <p class="eyebrow">GYOKOI HUB</p>
+      <h1>Mission Control</h1>
+      <p class="muted">เข้าสู่ระบบเพื่อจัดการแอปทั้งหมดใน Hub</p>
+
+      <form id="loginForm" class="login-form">
+        <label for="password">Password</label>
+        <div class="password-field">
+          <input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter password" required />
+          <button id="togglePassword" class="icon-button" type="button" aria-label="แสดงหรือซ่อนรหัสผ่าน">⌁</button>
+        </div>
+        <p id="loginError" class="form-error" role="alert"></p>
+        <button class="primary-button full" type="submit">Unlock Hub</button>
+      </form>
+    </div>
+  </section>
+
+  <main id="adminView" class="admin-view hidden">
+    <header class="topbar glass">
+      <div class="brand-row">
+        <div class="brand-mark small">G</div>
+        <div>
+          <p class="eyebrow">GYOKOI HUB</p>
+          <h1>Admin Console</h1>
+        </div>
+      </div>
+      <div class="topbar-actions">
+        <span class="status-pill"><span class="status-dot"></span> Local Mode</span>
+        <button id="logoutButton" class="ghost-button" type="button">Logout</button>
+      </div>
+    </header>
+
+    <section class="dashboard-grid">
+      <aside class="editor-panel glass">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">APP EDITOR</p>
+            <h2 id="formTitle">Add new app</h2>
+          </div>
+          <button id="resetButton" class="icon-button" type="button" title="ล้างฟอร์ม">↺</button>
+        </div>
+
+        <form id="appForm" class="app-form">
+          <input id="appId" type="hidden" />
+
+          <label for="name">ชื่อแอป</label>
+          <input id="name" type="text" placeholder="Portfolio" required />
+
+          <label for="description">คำอธิบาย</label>
+          <textarea id="description" rows="3" placeholder="Personal portfolio and selected works" required></textarea>
+
+          <label for="icon">ไอคอนแอป</label>
+          <input id="icon" type="text" placeholder="assets/icons/portfolio.png หรือ https://..." required />
+          <p class="field-hint">รองรับทั้ง path ใน GitHub และลิงก์รูปภายนอก</p>
+
+          <div class="field-grid">
+            <div>
+              <label for="category">หมวดหมู่</label>
+              <select id="category">
+                <option>Personal</option>
+                <option>Work</option>
+                <option>Business</option>
+                <option>Internal</option>
+              </select>
+            </div>
+            <div>
+              <label for="order">ลำดับ</label>
+              <input id="order" type="number" min="1" value="1" />
+            </div>
+          </div>
+
+          <label for="url">ลิงก์แอป</label>
+          <input id="url" type="url" placeholder="https://..." required />
+
+          <label class="toggle-row" for="visible">
+            <div>
+              <strong>แสดงบนหน้า Hub</strong>
+              <span>ปิดไว้ก่อนได้ถ้ายังไม่พร้อมเปิดใช้งาน</span>
+            </div>
+            <input id="visible" type="checkbox" checked />
+            <span class="switch"></span>
+          </label>
+
+          <div class="preview-card">
+            <img id="iconPreview" src="" alt="App icon preview" />
+            <div>
+              <strong id="namePreview">New App</strong>
+              <span id="descriptionPreview">Your app description appears here.</span>
+            </div>
+          </div>
+
+          <button class="primary-button full" type="submit">Save App</button>
+        </form>
+      </aside>
+
+      <section class="content-panel glass">
+        <div class="content-heading">
+          <div>
+            <p class="eyebrow">YOUR ECOSYSTEM</p>
+            <h2>Apps</h2>
+            <p id="appCount" class="muted">0 apps</p>
+          </div>
+          <div class="search-box">
+            <span>⌕</span>
+            <input id="searchInput" type="search" placeholder="Search apps" />
+          </div>
+        </div>
+
+        <div id="emptyState" class="empty-state hidden">
+          <div class="empty-icon">＋</div>
+          <h3>ยังไม่มีแอปใน Hub</h3>
+          <p>เริ่มเพิ่มแอปแรกจากฟอร์มด้านซ้ายได้เลย</p>
+        </div>
+
+        <div id="appList" class="app-list"></div>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="toast" role="status"></div>
+
+  <script src="config.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>

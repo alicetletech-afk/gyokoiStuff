@@ -5,5 +5,5 @@ window.GYOKOI_ADMIN_CONFIG = {
   TEMP_PASSWORD: "gyokoi1999!",
 
   // ใส่ Apps Script Web App URL ภายหลัง
-  API_URL: ""
+  API_URL: "https://script.google.com/macros/s/AKfycbwLRLlorkcoL7Znrwv7v799RpJrhAju_4K2eixfFNc9ezcxnzf059GnsGnwI4sa8Kx3dQ/exec"
 };

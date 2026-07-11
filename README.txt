@@ -1,32 +1,18 @@
-GYOKOI HUB ADMIN — STATIC V1
+GYOKOI HUB ADMIN API FILES
 
-ไฟล์ที่ต้องอัปขึ้น GitHub
-- admin.html
-- admin.css
+Upload these files and replace the old versions:
 - admin.js
 - config.js
 
-วิธีใช้
-1. วางไฟล์ทั้งหมดไว้ใน root เดียวกับหน้า Hub
-2. เปิด config.js
-3. เปลี่ยน TEMP_PASSWORD จาก change-me-gyokoi เป็นรหัสที่ต้องการ
-4. เข้าใช้งานผ่าน /admin.html
+Before upload:
+1. Open config.js
+2. Replace PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE
+3. Paste your Google Apps Script Web App URL ending in /exec
 
-ระบบในเวอร์ชันนี้
-- Login ด้วยรหัสผ่านชั่วคราว
-- Add / Edit / Delete App
-- Name
-- Description
-- Icon URL หรือ relative path
-- URL
-- Category
-- Visible
-- Order
-- Search
-- Preview
-- บันทึกข้อมูลใน localStorage ของ browser
+Example:
+window.GYOKOI_ADMIN_CONFIG = {
+  API_URL: "https://script.google.com/macros/s/XXXXXXXXXXXX/exec"
+};
 
-ข้อสำคัญ
-GitHub Pages เป็นเว็บสาธารณะ จึงสามารถเปิดดู config.js ได้
-รหัสผ่านนี้เหมาะสำหรับล็อกหน้าชั่วคราวเท่านั้น ไม่ใช่ระบบรักษาความปลอดภัยจริง
-เมื่อทำ CMS ต่อ ให้ย้ายการตรวจรหัสและข้อมูลทั้งหมดไป Google Apps Script
+Do not put the password in config.js.
+The password is checked by Google Apps Script.

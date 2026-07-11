@@ -1,3 +1,3 @@
 window.GYOKOI_ADMIN_CONFIG = {
-  API_URL: "PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE"
+  API_URL: "https://script.google.com/macros/s/AKfycbwLRLlorkcoL7Znrwv7v799RpJrhAju_4K2eixfFNc9ezcxnzf059GnsGnwI4sa8Kx3dQ/exec"
 };

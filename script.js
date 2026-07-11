@@ -4,6 +4,7 @@ const template = document.querySelector("#appCardTemplate");
 const inlineSearch = document.querySelector("#inlineSearch");
 const filterButtons = [...document.querySelectorAll("[data-filter]")];
 const sectionTitle = document.querySelector("#sectionTitle");
+const launchpad = document.querySelector(".launchpad");
 const spotlight = document.querySelector("#spotlight");
 const spotlightInput = document.querySelector("#spotlightInput");
 const spotlightResults = document.querySelector("#spotlightResults");
@@ -76,18 +77,47 @@ function renderApps() {
   });
 }
 
+function animateLaunchpad() {
+  launchpad?.classList.remove("is-arriving");
+  void launchpad?.offsetWidth;
+  launchpad?.classList.add("is-arriving");
+
+  window.clearTimeout(window.__launchpadMotion);
+  window.__launchpadMotion = window.setTimeout(() => {
+    launchpad?.classList.remove("is-arriving");
+  }, 1100);
+}
+
+function scrollToLaunchpad() {
+  window.setTimeout(() => {
+    launchpad?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  }, 80);
+}
+
 filterButtons.forEach(button => {
   button.addEventListener("click", () => {
     currentFilter = button.dataset.filter;
-    filterButtons.forEach(item => item.classList.toggle("active", item === button));
+    currentQuery = "";
+    inlineSearch.value = "";
+
+    filterButtons.forEach(item =>
+      item.classList.toggle("active", item === button)
+    );
+
     sectionTitle.textContent = labels[currentFilter] || "Apps";
     renderApps();
+    animateLaunchpad();
+    scrollToLaunchpad();
   });
 });
 
 inlineSearch.addEventListener("input", () => {
   currentQuery = inlineSearch.value.trim();
   renderApps();
+  animateLaunchpad();
 });
 
 function updateClock() {
@@ -95,7 +125,11 @@ function updateClock() {
   document.querySelector("#currentTime").textContent =
     now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
   document.querySelector("#currentDate").textContent =
-    now.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" });
+    now.toLocaleDateString("en-US", {
+      weekday: "long",
+      month: "long",
+      day: "numeric"
+    });
 }
 
 document.querySelector("#appCount").textContent = APPS.length;
@@ -144,7 +178,9 @@ spotlightInput.addEventListener("input", () => {
 function renderSpotlight(query) {
   const q = query.toLowerCase();
   const items = APPS.filter(app =>
-    `${app.title} ${app.description} ${app.categoryLabel}`.toLowerCase().includes(q)
+    `${app.title} ${app.description} ${app.categoryLabel}`
+      .toLowerCase()
+      .includes(q)
   );
 
   spotlightResults.innerHTML = items.map(app => `

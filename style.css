@@ -24,15 +24,18 @@
 
 html[data-theme="light"] {
   color-scheme: light;
-  --bg: #eef3fb;
-  --bg-soft: #e4ebf7;
+  --bg: #eef1f7;
+  --bg-soft: #e6ebf4;
   --surface: rgba(255,255,255,.62);
   --surface-strong: rgba(255,255,255,.88);
-  --line: rgba(31,47,76,.10);
-  --line-strong: rgba(61,116,207,.20);
+  --line: rgba(52,61,82,.10);
+  --line-strong: rgba(109,66,216,.24);
   --text: #182033;
   --text-soft: #667085;
-  --shadow: 0 30px 90px rgba(63, 83, 120, .18);
+  --blue: #6d42d8;
+  --cyan: #8f64e8;
+  --violet: #b07cff;
+  --shadow: 0 30px 90px rgba(67, 77, 105, .18);
 }
 
 * { box-sizing: border-box; }
@@ -727,5 +730,177 @@ a { text-decoration: none; }
     scroll-behavior: auto !important;
     transition-duration: .01ms !important;
     animation-duration: .01ms !important;
+  }
+}
+
+
+/* =========================================================
+   V1.1 — Light Theme Accent + Motion Pass
+   ========================================================= */
+
+html[data-theme="light"] .hero h1 span {
+  background: linear-gradient(90deg, #6d42d8, #8b5cf6, #b07cff);
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+html[data-theme="light"] .eyebrow,
+html[data-theme="light"] .mission-icon {
+  color: #6d42d8;
+}
+
+html[data-theme="light"] .brand-mark {
+  color: #6d42d8;
+  border-color: rgba(109, 66, 216, .22);
+}
+
+html[data-theme="light"] .aurora-one {
+  background: #8b7cf6;
+}
+
+html[data-theme="light"] .aurora-two {
+  background: #b07cff;
+}
+
+html[data-theme="light"] .aurora-three {
+  background: #72c6d8;
+}
+
+html[data-theme="light"] .aurora {
+  opacity: .28;
+  filter: blur(120px);
+}
+
+html[data-theme="light"] .app-card,
+html[data-theme="light"] .mission-card,
+html[data-theme="light"] .hero-meta > div,
+html[data-theme="light"] .inline-search,
+html[data-theme="light"] .spotlight-button,
+html[data-theme="light"] .theme-button,
+html[data-theme="light"] .brand-mark {
+  border-color: rgba(255,255,255,.72);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.88),
+    0 18px 42px rgba(76, 85, 110, .12);
+}
+
+html[data-theme="light"] .mission-card.active,
+html[data-theme="light"] .mission-card:hover,
+html[data-theme="light"] .app-card:hover {
+  border-color: rgba(109,66,216,.22);
+  background: rgba(255,255,255,.76);
+}
+
+/* Section arrival motion */
+.launchpad {
+  scroll-margin-top: 28px;
+}
+
+.launchpad.is-arriving .section-head {
+  animation: sectionSlideIn .52s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.launchpad.is-arriving .app-card {
+  animation: cardRiseIn .58s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.launchpad.is-arriving .app-card:nth-child(2) { animation-delay: .045s; }
+.launchpad.is-arriving .app-card:nth-child(3) { animation-delay: .09s; }
+.launchpad.is-arriving .app-card:nth-child(4) { animation-delay: .135s; }
+.launchpad.is-arriving .app-card:nth-child(5) { animation-delay: .18s; }
+.launchpad.is-arriving .app-card:nth-child(6) { animation-delay: .225s; }
+.launchpad.is-arriving .app-card:nth-child(7) { animation-delay: .27s; }
+.launchpad.is-arriving .app-card:nth-child(8) { animation-delay: .315s; }
+
+@keyframes sectionSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardRiseIn {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(.985);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Refined hover motion */
+.mission-card {
+  transform-origin: center;
+}
+
+.mission-card:hover,
+.mission-card.active {
+  transform: translateY(-5px) scale(1.015);
+}
+
+.mission-icon {
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease;
+}
+
+.mission-card:hover .mission-icon,
+.mission-card.active .mission-icon {
+  transform: translateY(-2px) rotate(-3deg) scale(1.06);
+  box-shadow: 0 10px 24px rgba(113,168,255,.14);
+}
+
+.app-icon {
+  transition: transform .28s cubic-bezier(.2,.8,.2,1), box-shadow .28s ease;
+}
+
+.app-card:hover .app-icon {
+  transform: translateY(-3px) rotate(-2deg) scale(1.055);
+}
+
+.app-card:hover .open-app {
+  transform: translateX(2px);
+}
+
+.open-app {
+  transition: transform .22s ease, opacity .22s ease;
+}
+
+.topbar,
+.hero,
+.mission-grid,
+.launchpad {
+  animation: pageFadeUp .7s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.hero { animation-delay: .06s; }
+.mission-grid { animation-delay: .12s; }
+.launchpad { animation-delay: .18s; }
+
+@keyframes pageFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .topbar,
+  .hero,
+  .mission-grid,
+  .launchpad,
+  .launchpad.is-arriving .section-head,
+  .launchpad.is-arriving .app-card {
+    animation: none !important;
   }
 }

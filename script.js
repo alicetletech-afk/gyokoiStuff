@@ -31,11 +31,38 @@ function escapeHtml(value) {
 
 function filteredApps() {
   return APPS.filter(app => {
-    const matchesFilter = currentFilter === "all" || app.category === currentFilter;
-    const haystack = `${app.title} ${app.description} ${app.categoryLabel}`.toLowerCase();
+    const matchesFilter =
+      currentFilter === "all" || app.category === currentFilter;
+
+    const haystack =
+      `${app.title} ${app.description} ${app.categoryLabel}`.toLowerCase();
+
     const matchesQuery = haystack.includes(currentQuery.toLowerCase());
+
     return matchesFilter && matchesQuery;
   });
+}
+
+function setAppIcon(element, app) {
+  element.innerHTML = "";
+
+  if (app.iconIsImage) {
+    const image = document.createElement("img");
+    image.src = app.icon;
+    image.alt = `${app.title} icon`;
+    image.loading = "lazy";
+
+    image.addEventListener("error", () => {
+      element.textContent = app.title.charAt(0).toUpperCase();
+    });
+
+    element.appendChild(image);
+    element.classList.add("has-image");
+    return;
+  }
+
+  element.classList.remove("has-image");
+  element.textContent = app.icon || app.title.charAt(0).toUpperCase();
 }
 
 function renderApps() {
@@ -59,7 +86,8 @@ function renderApps() {
     const secondary = node.querySelector(".secondary-link");
 
     card.style.setProperty("--app-color", app.color);
-    icon.textContent = app.icon;
+    setAppIcon(icon, app);
+
     status.textContent = app.status;
     status.classList.add(app.status);
     category.textContent = app.categoryLabel;
@@ -71,6 +99,8 @@ function renderApps() {
       secondary.hidden = false;
       secondary.href = app.secondaryUrl;
       secondary.textContent = app.secondaryLabel || "Admin";
+    } else {
+      secondary.hidden = true;
     }
 
     appGrid.appendChild(node);
@@ -122,8 +152,13 @@ inlineSearch.addEventListener("input", () => {
 
 function updateClock() {
   const now = new Date();
+
   document.querySelector("#currentTime").textContent =
-    now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
+    now.toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
   document.querySelector("#currentDate").textContent =
     now.toLocaleDateString("en-US", {
       weekday: "long",
@@ -131,10 +166,6 @@ function updateClock() {
       day: "numeric"
     });
 }
-
-document.querySelector("#appCount").textContent = APPS.length;
-updateClock();
-setInterval(updateClock, 30000);
 
 document.querySelector("[data-toggle-theme]").addEventListener("click", () => {
   const next = root.dataset.theme === "light" ? "dark" : "light";
@@ -146,7 +177,10 @@ const savedTheme = localStorage.getItem("gyokoi-hub-theme");
 if (savedTheme) root.dataset.theme = savedTheme;
 
 function openSpotlight() {
-  if (typeof spotlight.showModal === "function") spotlight.showModal();
+  if (typeof spotlight.showModal === "function") {
+    spotlight.showModal();
+  }
+
   spotlightInput.value = "";
   renderSpotlight("");
   setTimeout(() => spotlightInput.focus(), 50);
@@ -168,46 +202,92 @@ document.addEventListener("keydown", event => {
 });
 
 spotlight.addEventListener("click", event => {
-  if (event.target === spotlight) spotlight.close();
+  if (event.target === spotlight) {
+    spotlight.close();
+  }
 });
 
 spotlightInput.addEventListener("input", () => {
   renderSpotlight(spotlightInput.value.trim());
 });
 
+function spotlightIconMarkup(app) {
+  if (app.iconIsImage) {
+    return `
+      <span class="search-result-icon has-image" style="--result-color:${escapeHtml(app.color)}">
+        <img src="${escapeHtml(app.icon)}" alt="" />
+      </span>
+    `;
+  }
+
+  return `
+    <span class="search-result-icon" style="--result-color:${escapeHtml(app.color)}">
+      ${escapeHtml(app.icon)}
+    </span>
+  `;
+}
+
 function renderSpotlight(query) {
   const q = query.toLowerCase();
+
   const items = APPS.filter(app =>
     `${app.title} ${app.description} ${app.categoryLabel}`
       .toLowerCase()
       .includes(q)
   );
 
-  spotlightResults.innerHTML = items.map(app => `
-    <button class="search-result" type="button" data-search-id="${escapeHtml(app.id)}">
-      <span class="search-result-icon" style="--result-color:${escapeHtml(app.color)}">${escapeHtml(app.icon)}</span>
-      <span>
-        <strong>${escapeHtml(app.title)}</strong>
-        <small>${escapeHtml(app.categoryLabel)}</small>
-      </span>
-      <span>↗</span>
-    </button>
-  `).join("");
+  spotlightResults.innerHTML = items
+    .map(app => `
+      <button
+        class="search-result"
+        type="button"
+        data-search-id="${escapeHtml(app.id)}"
+      >
+        ${spotlightIconMarkup(app)}
+        <span>
+          <strong>${escapeHtml(app.title)}</strong>
+          <small>${escapeHtml(app.categoryLabel)}</small>
+        </span>
+        <span>↗</span>
+      </button>
+    `)
+    .join("");
 
-  spotlightResults.querySelectorAll("[data-search-id]").forEach(button => {
-    button.addEventListener("click", () => {
-      const app = APPS.find(item => item.id === button.dataset.searchId);
-      if (app) window.open(app.url, "_blank", "noopener,noreferrer");
+  spotlightResults
+    .querySelectorAll("[data-search-id]")
+    .forEach(button => {
+      button.addEventListener("click", () => {
+        const app = APPS.find(
+          item => item.id === button.dataset.searchId
+        );
+
+        if (app) {
+          window.open(app.url, "_blank", "noopener,noreferrer");
+        }
+      });
     });
-  });
 }
 
 document.querySelectorAll("[data-dock]").forEach(button => {
   button.addEventListener("click", () => {
     const app = APPS.find(item => item.id === button.dataset.dock);
-    if (app) window.open(app.url, "_blank", "noopener,noreferrer");
+
+    if (app) {
+      window.open(app.url, "_blank", "noopener,noreferrer");
+    }
   });
 });
 
-renderApps();
-renderSpotlight("");
+async function initHub() {
+  await loadHubApps();
+
+  document.querySelector("#appCount").textContent = APPS.length;
+
+  updateClock();
+  setInterval(updateClock, 30000);
+
+  renderApps();
+  renderSpotlight("");
+}
+
+initHub();

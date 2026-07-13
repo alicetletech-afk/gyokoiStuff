@@ -91,6 +91,19 @@
           <label for="url">ลิงก์แอป</label>
           <input id="url" type="url" placeholder="https://..." required />
 
+          <label for="adminUrl">ลิงก์ Admin</label>
+          <input id="adminUrl" type="url" placeholder="https://.../admin (เว้นว่างได้)" />
+          <p class="field-hint">ใส่เฉพาะแอปที่มีหน้าจัดการหลังบ้าน</p>
+
+          <label class="toggle-row" for="showAdmin"> 
+            <div>
+              <strong>แสดงปุ่ม Admin</strong>
+              <span>เปิด–ปิดแยกได้สำหรับทุกแอป</span>
+            </div>
+            <input id="showAdmin" type="checkbox" />
+            <span class="switch"></span>
+          </label>
+
           <label class="toggle-row" for="visible">
             <div>
               <strong>แสดงบนหน้า Hub</strong>

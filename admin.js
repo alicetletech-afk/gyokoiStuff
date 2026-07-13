@@ -23,6 +23,8 @@
     description: $("#description"),
     icon: $("#icon"),
     url: $("#url"),
+    adminUrl: $("#adminUrl"),
+    showAdmin: $("#showAdmin"),
     category: $("#category"),
     order: $("#order"),
     visible: $("#visible")
@@ -65,6 +67,10 @@
 
     [fields.name, fields.description, fields.icon].forEach((field) => {
       field.addEventListener("input", updatePreview);
+    });
+
+    fields.adminUrl.addEventListener("input", () => {
+      if (!fields.adminUrl.value.trim()) fields.showAdmin.checked = false;
     });
   }
 
@@ -119,12 +125,20 @@
 
     const isEditing = Boolean(fields.id.value.trim());
 
+    if (fields.showAdmin.checked && !fields.adminUrl.value.trim()) {
+      showToast("กรุณาใส่ลิงก์ Admin ก่อนเปิดปุ่ม Admin");
+      fields.adminUrl.focus();
+      return;
+    }
+
     const item = {
       id: fields.id.value.trim(),
       name: fields.name.value.trim(),
       description: fields.description.value.trim(),
       icon: fields.icon.value.trim(),
       url: fields.url.value.trim(),
+      adminUrl: fields.adminUrl.value.trim(),
+      showAdmin: fields.showAdmin.checked,
       category: fields.category.value,
       order: Number(fields.order.value) || 1,
       visible: fields.visible.checked
@@ -159,6 +173,8 @@
     fields.description.value = app.description;
     fields.icon.value = app.icon;
     fields.url.value = app.url;
+    fields.adminUrl.value = app.adminUrl || "";
+    fields.showAdmin.checked = Boolean(app.showAdmin && app.adminUrl);
     fields.category.value = app.category;
     fields.order.value = app.order;
     fields.visible.checked = app.visible;
@@ -231,6 +247,9 @@
             <span class="meta-chip ${app.visible ? "" : "off"}">
               ${app.visible ? "Visible" : "Hidden"}
             </span>
+            <span class="meta-chip ${app.showAdmin && app.adminUrl ? "" : "off"}">
+              ${app.showAdmin && app.adminUrl ? "Admin On" : "Admin Off"}
+            </span>
           </div>
         </div>
         <div class="app-actions">
@@ -275,6 +294,8 @@
     fields.id.value = "";
     fields.order.value = apps.length + 1;
     fields.visible.checked = true;
+    fields.adminUrl.value = "";
+    fields.showAdmin.checked = false;
     $("#formTitle").textContent = "Add new app";
     updatePreview();
   }

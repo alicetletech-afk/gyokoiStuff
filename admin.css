@@ -162,3 +162,8 @@ textarea { resize: vertical; }
   .app-actions { grid-column: 1 / -1; justify-content: flex-end; }
   .login-card { padding: 30px 22px; }
 }
+
+
+/* Admin button controls */
+#adminUrl:placeholder-shown + .field-hint { opacity: .82; }
+.toggle-row + .toggle-row { margin-top: 2px; }
